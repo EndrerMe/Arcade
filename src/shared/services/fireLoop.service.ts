@@ -1,5 +1,4 @@
 // Vendors
-import * as PIXI from 'pixi.js';
 import gsap from "gsap";
 import {Howl} from 'howler';
 
@@ -9,7 +8,6 @@ import { DetectKill, CreateElement } from 'shared/services';
 import { Bullet } from 'components';
 
 export class FireLoop extends Bullet {
-    private createElement: CreateElement;
     private app: PIXI.Application;
     private bullets: PIXI.Sprite[] = [];
     private screen: PIXI.Container;
@@ -25,8 +23,8 @@ export class FireLoop extends Bullet {
     }
 
     public init(): void {
-        this.createElement = new CreateElement();
-        this.container = this.createElement.createContainer(window.innerWidth, window.innerHeight);
+        this.screen.removeChild(this.container);
+        this.container = CreateElement.createContainer(window.innerWidth, window.innerHeight);
         this.container.name = 'bullets_container';
         this.screen.addChild(this.container);
     }
@@ -39,9 +37,8 @@ export class FireLoop extends Bullet {
             const sound = new Howl({
                 src: [this.app.loader.resources.shot_sound.url]
             });
-              
             sound.play();
-            const bullet = this.createElement.createBullet(this.player.x, this.player.y, this.app);
+            const bullet = CreateElement.createBullet(this.player.x, this.player.y, this.app);
             bullet.name = `bullet${this.currentBullet}`;
             this.currentBullet += 1;
             this.container.addChild(bullet);
@@ -58,7 +55,7 @@ export class FireLoop extends Bullet {
                 }});
             setTimeout(() => {
                 this.canFire = true;
-            }, 500)
+            }, 300)
         }
     }
 

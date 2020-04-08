@@ -91,6 +91,10 @@ module.exports = {
         from: `${paths.src}/shared/assets/sound`,
         to: `${paths.assets}/sound`,
       },
+      {
+        from: `${paths.src}/shared/assets/animations`,
+        to: `${paths.assets}/animations`,
+      },
     ]),
   ]
 };

@@ -1,29 +1,28 @@
-// Vendors
-import * as PIXI from 'pixi.js';
-
 export class CreateElement {
 
-    public createEnemies(scene: HTMLElement, 
+    public static createEnemies(scene: HTMLElement, 
         width: number, height: number,
         enemyContainer: PIXI.Container,
-        app: PIXI.Application): PIXI.Sprite[] {
+        app: PIXI.Application, quantity: number,
+        health: number): PIXI.Sprite[] {
 
         const enemies: PIXI.Sprite[] = [];
 
-        for (let i = 0; i < scene.offsetWidth / width - 5; i++) {
+        for (let i = 0; i < quantity; i++) {
             const enemy = PIXI.Sprite.from(app.loader.resources.enemy.texture);
             enemy.name = `enemy${i}`;
-            enemy.x = scene.offsetWidth - (i * width);
-            enemy.y = scene.offsetHeight / 6;
+            enemy.x = Math.random() * ((scene.offsetWidth - 55) - 55) + 55;
+            enemy.y = -40;
             enemy.width = width;
             enemy.height = height;
+            enemy.visible = false;
             enemyContainer.addChild(enemy);
             enemies.push(enemy)
         }
         return enemies;
     }
 
-    public createPlayer(width: number, height: number, app: PIXI.Application): PIXI.Sprite {
+    public static createPlayer(width: number, height: number, app: PIXI.Application): PIXI.Sprite {
         const player = PIXI.Sprite.from(app.loader.resources.player.texture);
         
         player.anchor.set(0.5);
@@ -35,7 +34,7 @@ export class CreateElement {
         return player;
     }
 
-    public createBullet(x: number, y: number, app: PIXI.Application) {
+    public static createBullet(x: number, y: number, app: PIXI.Application) {
         const bullet = PIXI.Sprite.from(app.loader.resources.bullet.texture);
         bullet.anchor.set(0.5);
         bullet.x = x;
@@ -44,7 +43,7 @@ export class CreateElement {
         return bullet
     }
     
-    public createContainer(width: number, height: number): PIXI.Container {
+    public static createContainer(width: number, height: number): PIXI.Container {
         const container = new PIXI.Container();
 
         const containerSetting = new PIXI.Graphics();

@@ -1,10 +1,12 @@
-// Vendors
-import * as PIXI from 'pixi.js';
+// Services
+import { LoaderService } from 'shared/services';
 
 export abstract class SwitchScreen {
     public menuScreen: PIXI.Container;
-    public mainScreen: PIXI.Container;
+    public gameScreen: PIXI.Container;
+    public settingScreen: PIXI.Container;
     public app: PIXI.Application
+    public loaderService: LoaderService;
 
     constructor(
        app: PIXI.Application
@@ -12,34 +14,27 @@ export abstract class SwitchScreen {
         this.app = app;
     }
 
-    // public initMenu(): void {
-    //     this.menuScreen = new PIXI.Container();
-    //     this.app.stage.addChild(this.menuScreen);
-    // }
+    public initLoader(): void {
+        this.loaderService = new LoaderService(this.app);
+    }
 
-    // public initScreens(): void {
-    //     this.menuScreen = new PIXI.Container();
-    //     this.mainScreen = new PIXI.Container();
+    public initMenu(): void {
+        this.menuScreen = new PIXI.Container();
+        this.menuScreen.name = 'menu_screen';
+        this.app.stage.addChild(this.menuScreen);
+    }
 
-    //     this.mainScreen.visible = false;
+    public initSetting(): void {
+        this.app.stage.removeChild(this.menuScreen);
+        this.settingScreen = new PIXI.Container;
+        this.settingScreen.name = 'setting_screen';
+        this.app.stage.addChild(this.settingScreen);
+    }
 
-    //     this.app.stage.addChild(this.menuScreen);
-    //     this.app.stage.addChild(this.mainScreen);
-
-    //     this.menu = new Menu(this.app, this.menuScreen);
-    //     this.menu.screenSetup();
-
-    //     this.watchButtonPress();
-    // }
-
-    // private watchButtonPress(): void {
-    //     this.menu.isGameStart.subscribe((res: {name: string}) => {
-    //         if (res && res.name === 'start') {
-    //             this.main = new Main(this.app, this.mainScreen, this.scene);
-    //             this.main.init();
-    //             this.menuScreen.visible = false;
-    //             this.mainScreen.visible = true;
-    //         }
-    //     })
-    // }
+    public initGame(): void {
+        this.app.stage.removeChild(this.settingScreen);
+        this.gameScreen = new PIXI.Container();
+        this.gameScreen.name = 'game_screen';
+        this.app.stage.addChild(this.gameScreen);
+    }
 }

@@ -4,3 +4,8 @@ export * from 'shared/services/enemyLoop.service';
 export * from 'shared/services/detectKill.service';
 export * from 'shared/services/createElement.service';
 export * from 'shared/services/playerLoop.service';
+export * from 'shared/services/htmlLoader.service';
+export * from 'shared/services/score.service';
+export * from 'shared/services/resultPopupsMarkup.service';
+export * from 'shared/services/settingsMarkup.serivce';
+export * from 'shared/services/changeComplextyLevel.service';

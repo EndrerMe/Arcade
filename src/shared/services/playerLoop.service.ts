@@ -1,13 +1,9 @@
-// Vendors
-import * as PIXI from 'pixi.js';
-
 // Components
 import { Player } from "components";
 import { CreateElement } from 'shared/services';
 
 export class PlayerLoop extends Player {
     private isKeyPress: boolean = false;
-    private createElement: CreateElement;
     private width: number = window.innerWidth;
     private height: number = window.innerHeight;
     private keys: boolean[] = [];
@@ -23,11 +19,12 @@ export class PlayerLoop extends Player {
     }
 
     public init(): void {
-        this.createElement = new CreateElement();
-        this.container = this.createElement.createContainer(this.width, this.height);
+        this.screen.removeChild(this.container)
+        this.container = CreateElement.createContainer(this.width, this.height);
         this.container.name = 'player_container'
+        this.container.interactive = true;
         this.screen.addChild(this.container)
-        this.player = this.createElement.createPlayer(this.width, this.height, this.app);
+        this.player = CreateElement.createPlayer(this.width, this.height, this.app);
         this.player.name = 'player'
         this.container.addChild(this.player);
         window.addEventListener('keydown', this.keysDown);

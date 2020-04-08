@@ -1,15 +1,16 @@
 // Vendors
 import * as PIXI from 'pixi.js';
-
+//@ts-ignore
+global.PIXI = PIXI;
 // Screens
-import { Menu } from 'screens';
+import { Main } from 'screens';
 
 // Scss
 import 'app.scss'
 
 class App {
     private scene: HTMLElement = document.getElementById('gameScene');
-    public app!: PIXI.Application;
+    public app: PIXI.Application;
 
     constructor() {
         this.initApp();
@@ -24,7 +25,7 @@ class App {
 
         this.scene.appendChild(this.app.view);
         window.addEventListener('resize', this.resizeScene);
-        new Menu(this.app, this.scene).init();
+        new Main(this.app, this.scene).init()
     }
 
     private resizeScene = (): void => {
