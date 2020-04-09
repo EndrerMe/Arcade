@@ -36,8 +36,8 @@ export class Main {
     public initApp = (): void => {
         this.scene = document.getElementById('gameScene');
         this.app = new PIXI.Application({
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: 1280,
+            height: 720,
         })
         this.app.stage.interactive = true;
 
