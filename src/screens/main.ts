@@ -7,23 +7,45 @@ import { Menu, Game, Settings } from 'screens';
 import { LoaderService, HtmlLoader } from 'shared/services';
 
 export class Main {
-    private app: PIXI.Application;
-    private scene: HTMLElement;
-    private menu: Menu;
-    private game: Game;
-    private settings: Settings;
+
+    private static _instance: Main = null;
+    
+    static get instance(): Main{
+        if(Main._instance === null){
+            Main._instance = new Main();
+        }
+        return Main._instance;
+    }
+
+    public app: PIXI.Application;
+    public scene: HTMLElement = document.getElementById('gameScene');
+    public menu: Menu;
+    public game: Game;
+    public settings: Settings;
     private loaderService: LoaderService;
     private backgroundMusic: Howl;
 
-    constructor(
-        app: PIXI.Application,
-        scene: HTMLElement
-    ) {
-        this.app = app;
-        this.scene = scene;
+    public get resourses() {
+        return this.app.loader;
     }
 
-    public init(): void {
+    constructor(
+    ) {
+        this.initApp();
+    }
+
+    public initApp(): void {
+        this.app = new PIXI.Application({
+            width: this.scene.offsetWidth,
+            height: this.scene.offsetHeight,
+        })
+        this.app.stage.interactive = true;
+
+        this.scene.appendChild(this.app.view);
+        this.init();
+    }
+
+    private init(): void {
         this.loaderService = new LoaderService(this.app);
         this.menu = new Menu(this.app, this.scene);
         this.game = new Game(this.app, this.scene);
@@ -38,8 +60,12 @@ export class Main {
 
         this.settings.isGameStart.subscribe((res) => {
             if (res) {
-                this.backgroundMusic.stop();
-                this.initGame();
+                this.loaderService.loadGameAssets();
+                this.loaderService.loadAssets().then((res) => {
+                    this.backgroundMusic.stop();
+                    this.initGame();
+                    HtmlLoader.toggleLoader(false);
+                })
             }
         })
 

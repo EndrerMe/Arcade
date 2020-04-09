@@ -2,12 +2,12 @@
 import { Subject } from 'rxjs';
 
 // Screnns
-import { SwitchScreen } from "screens/switchScreen/switchScreen";
+import { initScreen } from "screens/initScreen/initScreen";
 
 // Serivices
 import { SettingsMurkup, HtmlLoader } from 'shared/services';
 
-export class Settings extends SwitchScreen {
+export class Settings extends initScreen {
     public isGameStart: Subject<boolean> = new Subject();
     public app: PIXI.Application;
     private scene: HTMLElement
@@ -50,12 +50,8 @@ export class Settings extends SwitchScreen {
     private startGame(btn: PIXI.Text): void {
         btn.on('pointerdown', (): void => {
             HtmlLoader.toggleLoader(true);
-            this.loaderService.loadGameAssets();
-            this.loaderService.loadAssets().then((res) => {
-                this.isGameStart.next(true);
-                this.isGameStart.next(false);
-                HtmlLoader.toggleLoader(false);
-            })
+            this.isGameStart.next(true);
+            this.isGameStart.next(false);
         });
     }
 }

@@ -3,17 +3,19 @@ import gsap from "gsap";
 
 // Services
 import { DetectKill, EnemyLoop, ResultPopupsMurkup,
-    FireLoop, PlayerLoop, CreateElement } from 'shared/services'
-
+    FireLoop, PlayerLoop } from 'shared/services'
 // Screen
-import { SwitchScreen } from 'screens/switchScreen/switchScreen';
+import { initScreen } from 'screens/initScreen/initScreen';
+// Components
+import { Enemy } from "components";
 
-export class Game extends SwitchScreen {
+
+export class Game extends initScreen {
     private enemyLoop: EnemyLoop;
     private fireLoop: FireLoop;
     private playerLoop: PlayerLoop;
     private detectKill: DetectKill;
-    private enemies: PIXI.Sprite[];
+    private enemies: Enemy[];
     private bullets: PIXI.Sprite[];
     private mainSetup: PIXI.Graphics;
     private scoreContainer: PIXI.Container;

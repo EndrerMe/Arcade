@@ -11,10 +11,12 @@ export class LoaderService {
         this.app.loader
             .add('mainBg', 'img/bg/bg5.jpg')
             .add('enemy', 'img/enemy.png')
+            .add('enemy2', 'img/enemy2.png')
             .add('bullet', 'img/bullet.png')
             .add('player', 'img/player.png')
             .add('shot_sound', 'sound/shot.mp3')
-            .add('explosion_sound', 'sound/explosion.mp3');
+            .add('explosion_sound', 'sound/explosion.mp3')
+            .add('hit_sound', 'sound/hit.mp3');
 
         this.loadAnimations();
     }

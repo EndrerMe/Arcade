@@ -1,7 +1,7 @@
 // Services
 import { LoaderService } from 'shared/services';
 
-export abstract class SwitchScreen {
+export abstract class initScreen {
     public menuScreen: PIXI.Container;
     public gameScreen: PIXI.Container;
     public settingScreen: PIXI.Container;

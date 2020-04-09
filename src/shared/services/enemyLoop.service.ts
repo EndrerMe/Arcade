@@ -2,19 +2,21 @@
 import gsap from "gsap";
 // Services
 import { DetectKill, CreateElement, ResultPopupsMurkup, ChangeComplexityLevel } from 'shared/services';
-
 // Components
 import { Enemy } from 'components';
+
 
 export class EnemyLoop extends Enemy {
     private app: PIXI.Application;
     private screen: PIXI.Container;
     private scene: HTMLElement;
-    private enemies: PIXI.Sprite[] = [];
+    private enemies: Enemy[] = [];
     private container: PIXI.Container;
     private quantity: number = 30;
     private quantityInMove: number = 3;
     private spawnRate: number = 5000;
+    private complexityLevel: number = 1;
+    private playerHealth: number = 3;
 
     constructor(
     ) {
@@ -25,6 +27,7 @@ export class EnemyLoop extends Enemy {
         this.container = CreateElement.createContainer(this.width, this.height);
         this.container.name = 'enemy_container'
         this.screen.addChild(this.container);
+        this.changeComplexityLevel();
         this.enemies = CreateElement.createEnemies(
             this.scene, 
             this.width, 
@@ -32,28 +35,29 @@ export class EnemyLoop extends Enemy {
             this.container,
             this.app,
             this.quantity,
-            this.health
+            this.health,
+            this.complexityLevel
             );
-        this.changeComplexityLevel();
         this.app.ticker.add(this.gameLoop);
         this.addQuantityMove();
     }
 
     private changeComplexityLevel(): void {
         ChangeComplexityLevel.newComplexityLevel.subscribe((res) => {
+            this.complexityLevel = res;
             switch(res) {
                 case 1:
-                    this.speedY = 1;
+                    this.speedY = 0.7;
                     this.spawnRate = this.spawnRate * 1;
                     this.quantity = 30;
                     break;
                 case 2: 
-                    this.speedY = 1.35;
+                    this.speedY = 1.2;
                     this.spawnRate = this.spawnRate * 0.85;
                     this.quantity = 45;
                     break;
                 case 3:
-                    this.speedY = 1.7;
+                    this.speedY = 1.4;
                     this.spawnRate = this.spawnRate * 0.7;
                     this.quantity = 50;
                     break;
@@ -89,7 +93,8 @@ export class EnemyLoop extends Enemy {
             this.container,
             this.app,
             this.quantity,
-            this.health
+            this.health,
+            this.complexityLevel
             );
         this.app.ticker.add(this.gameLoop);
     }
@@ -109,10 +114,11 @@ export class EnemyLoop extends Enemy {
         const height = this.scene.offsetHeight;
 
         if (this.enemies[0].y >= height / 1.4) {
+            this.playerHealth -= 1;
+        }
+
+        if (this.enemies[0].y >= height / 1.4) {
             ResultPopupsMurkup.toggleLoosePopup(true)
-            // const popup = document.getElementById('loose_popup');
-            // popup.style.display = 'flex';
-            // gsap.to('#window_loose', {x: 0, y: -this.scene.offsetHeight / 2, duration: 1, ease: "none"})
             this.app.ticker.remove(this.gameLoop);
         }
     }
@@ -140,7 +146,7 @@ export class EnemyLoop extends Enemy {
         this.scene = scene;
     }
 
-    public getEnemies(): PIXI.Sprite[] {
+    public getEnemies(): Enemy[] {
         return this.enemies;
     }
 }

@@ -2,9 +2,9 @@
 import { Subject } from 'rxjs';
 
 // Screens
-import { SwitchScreen } from 'screens/switchScreen/switchScreen';
+import { initScreen } from 'screens/initScreen/initScreen';
 
-export class Menu extends SwitchScreen {
+export class Menu extends initScreen {
     private buttons: Array<{name: string, button: PIXI.Text}> = [];
     public scene: HTMLElement;
     public isSettingsOn: Subject<boolean> = new Subject();

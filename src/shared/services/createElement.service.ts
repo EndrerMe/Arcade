@@ -1,20 +1,34 @@
+// Components
+import { Enemy, Bullet, Player } from "components";
+import { Main } from "screens";
+
 export class CreateElement {
 
     public static createEnemies(scene: HTMLElement, 
         width: number, height: number,
         enemyContainer: PIXI.Container,
         app: PIXI.Application, quantity: number,
-        health: number): PIXI.Sprite[] {
+        health: number, complexityLevel: number): Enemy[] {
 
-        const enemies: PIXI.Sprite[] = [];
-
+        const enemies: Enemy[] = [];
+        console.log(Main.instance.resourses, app.loader)
         for (let i = 0; i < quantity; i++) {
-            const enemy = PIXI.Sprite.from(app.loader.resources.enemy.texture);
+            const isSpawnHardEnemy = Math.floor(Math.random() * (10 - 1) + 1);
+            let enemy;
+            if (isSpawnHardEnemy > complexityLevel * 2) {
+                enemy = Enemy.from(app.loader.resources.enemy.texture);
+                enemy.health = health;
+                enemy.width = width;
+                enemy.height = height;
+            } else {
+                enemy = Enemy.from(app.loader.resources.enemy2.texture);
+                enemy.health = health + 1;
+                enemy.width = width + 20;
+                enemy.height = height + 20;
+            }
             enemy.name = `enemy${i}`;
             enemy.x = Math.random() * ((scene.offsetWidth - 55) - 55) + 55;
             enemy.y = -40;
-            enemy.width = width;
-            enemy.height = height;
             enemy.visible = false;
             enemyContainer.addChild(enemy);
             enemies.push(enemy)
@@ -22,8 +36,8 @@ export class CreateElement {
         return enemies;
     }
 
-    public static createPlayer(width: number, height: number, app: PIXI.Application): PIXI.Sprite {
-        const player = PIXI.Sprite.from(app.loader.resources.player.texture);
+    public static createPlayer(width: number, height: number, app: PIXI.Application): Player {
+        const player = Player.from(app.loader.resources.player.texture);
         
         player.anchor.set(0.5);
         player.x = width / 2;
@@ -31,16 +45,16 @@ export class CreateElement {
         player.width = 38;
         player.height = 38;
 
-        return player;
+        return player as Player;
     }
 
-    public static createBullet(x: number, y: number, app: PIXI.Application) {
-        const bullet = PIXI.Sprite.from(app.loader.resources.bullet.texture);
+    public static createBullet(x: number, y: number, app: PIXI.Application): Bullet {
+        const bullet = Bullet.from(app.loader.resources.bullet.texture);
         bullet.anchor.set(0.5);
         bullet.x = x;
         bullet.y = y;
-        bullet.name 
-        return bullet
+
+        return bullet as Bullet
     }
     
     public static createContainer(width: number, height: number): PIXI.Container {

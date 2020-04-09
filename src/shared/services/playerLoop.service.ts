@@ -4,13 +4,13 @@ import { CreateElement } from 'shared/services';
 
 export class PlayerLoop extends Player {
     private isKeyPress: boolean = false;
-    private width: number = window.innerWidth;
-    private height: number = window.innerHeight;
+    private winWidth: number = window.innerWidth;
+    private winHeight: number = window.innerHeight;
     private keys: boolean[] = [];
     private app: PIXI.Application;
     private screen: PIXI.Container;
     private container: PIXI.Container;
-    public player: PIXI.Sprite;
+    public player: Player;
 
     constructor(
 
@@ -20,11 +20,11 @@ export class PlayerLoop extends Player {
 
     public init(): void {
         this.screen.removeChild(this.container)
-        this.container = CreateElement.createContainer(this.width, this.height);
+        this.container = CreateElement.createContainer(this.winWidth, this.winHeight);
         this.container.name = 'player_container'
         this.container.interactive = true;
         this.screen.addChild(this.container)
-        this.player = CreateElement.createPlayer(this.width, this.height, this.app);
+        this.player = CreateElement.createPlayer(this.winWidth, this.winHeight, this.app);
         this.player.name = 'player'
         this.container.addChild(this.player);
         window.addEventListener('keydown', this.keysDown);

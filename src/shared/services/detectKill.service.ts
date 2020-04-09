@@ -4,23 +4,26 @@ import {Howl} from 'howler';
 
 // Services
 import { Score } from 'shared/services';
+// Components
+import { Enemy } from "components";
 
 export class DetectKill {
-    private enemiesArray: PIXI.Sprite[] = [];
+    private enemiesArray: Enemy[] = [];
     private bulletsArray: PIXI.Sprite[] = [];
     private enemyContainer: PIXI.Container;
     private bulletsContainer: PIXI.Container;
     private app: PIXI.Application;
     private screen: PIXI.Container;
     private score: PIXI.Text;
-    private sound: Howl;
+    private explosionSound: Howl;
+    private hitSound: Howl;
     private explosionAnim: PIXI.AnimatedSprite;
     private explosionSheet: PIXI.Spritesheet;
 
     constructor(
     ) {}
 
-    public init(enemies: PIXI.Sprite[], bullets: PIXI.Sprite[]): void {
+    public init(enemies: Enemy[], bullets: PIXI.Sprite[]): void {
         this.enemiesArray = enemies;
         this.bulletsArray = bullets;
         this.app.ticker.add(this.detectLoop);
@@ -34,21 +37,42 @@ export class DetectKill {
         if (this.enemiesArray) {
             for (let i = 0; i < this.enemiesArray.length; i++) {
                 for (let j = 0; j < this.bulletsArray.length; j++) {
-                    if (this.enemiesArray[i].x <= this.bulletsArray[j].x &&
-                        this.enemiesArray[i].x + 55 >= this.bulletsArray[j].x &&
-                        this.enemiesArray[i].y - (55 / 2) <= this.bulletsArray[j].y &&
-                        this.enemiesArray[i].y + (55 / 2) >= this.bulletsArray[j].y) {
-                            this.bulletsContainer.removeChild(this.bulletsArray[j])
-                            this.enemyContainer.removeChild(this.enemiesArray[i])
-                            this.playExplosion(0, this.enemiesArray[i].x, this.enemiesArray[i].y);
+                    const enemyData = {
+                        x: this.enemiesArray[i].x,
+                        y: this.enemiesArray[i].y,
+                        width: this.enemiesArray[i].width,
+                        height: this.enemiesArray[i].height
+                    };
+                    const bulletData = {
+                        x: this.bulletsArray[j].x,
+                        y: this.bulletsArray[j].y,
+                    }
+
+                    if (enemyData.x <= bulletData.x &&
+                        enemyData.x + enemyData.width >= bulletData.x &&
+                        enemyData.y - (enemyData.height / 2) <= bulletData.y &&
+                        enemyData.y + (enemyData.height / 2) >= bulletData.y ) {
+
+                            this.bulletsContainer.removeChild(this.bulletsArray[j]);
                             this.bulletsArray.splice(j, 1);
-                            this.enemiesArray.splice(i, 1);
-                            this.sound.play();
-                            Score.calcScore(this.score);
+                            this.enemiesArray[i].health -= 1;
+                            if (this.enemiesArray[i].health > 0) {
+                                this.hitSound.play();
+                            } else {
+                                this.killEnemy(this.enemiesArray[i], i);
+                            }
                         }
                 }
             }
         }
+    }
+
+    private killEnemy(enemy: Enemy, i: number): void {
+        this.enemyContainer.removeChild(enemy)
+        this.playExplosion(0, enemy.x, enemy.y);
+        this.enemiesArray.splice(i, 1);
+        this.explosionSound.play();
+        Score.calcScore(this.score);
     }
 
     private playExplosion(frame: number, x: number, y: number): void {
@@ -67,8 +91,11 @@ export class DetectKill {
     }
 
     private initSound(): void {
-        this.sound = new Howl({
+        this.explosionSound = new Howl({
             src: [this.app.loader.resources.explosion_sound.url]
+        });
+        this.hitSound = new Howl({
+            src: [this.app.loader.resources.hit_sound.url]
         });
     }
 

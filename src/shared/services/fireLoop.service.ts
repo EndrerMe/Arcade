@@ -9,7 +9,7 @@ import { Bullet } from 'components';
 
 export class FireLoop extends Bullet {
     private app: PIXI.Application;
-    private bullets: PIXI.Sprite[] = [];
+    private bullets: Bullet[] = [];
     private screen: PIXI.Container;
     private player: PIXI.Sprite;
     private container: PIXI.Container;
@@ -71,7 +71,7 @@ export class FireLoop extends Bullet {
         this.scene = scene;
     }
 
-    public getBullets(): PIXI.Sprite[] {
+    public getBullets(): Bullet[] {
         return this.bullets;
     }
 
