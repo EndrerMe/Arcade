@@ -39,7 +39,6 @@ export class Game extends initScreen {
     }
 
     private screenSetup(): void {
-        this.gameScreen.removeChild(this.mainSetup);
         this.loadBackground();
         this.initComponents();
         this.setCompoentData();

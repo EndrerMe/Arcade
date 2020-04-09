@@ -33,7 +33,6 @@ export class EnemyLoop extends Enemy {
             this.width, 
             this.height, 
             this.container,
-            this.app,
             this.quantity,
             this.health,
             this.complexityLevel
@@ -91,7 +90,6 @@ export class EnemyLoop extends Enemy {
             this.width, 
             this.height, 
             this.container,
-            this.app,
             this.quantity,
             this.health,
             this.complexityLevel

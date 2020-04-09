@@ -14,7 +14,7 @@ class App {
     }
 
     private init(): void {
-        new Main();
+        new Main.instance.initApp();
     }
 }
 

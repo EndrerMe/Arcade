@@ -2,8 +2,13 @@ export class Resize {
     constructor(
     ) {}
 
-    // public resizeScene = (): void => {
-    //     const parent = this.app.view.parentNode;
-    //     this.app.renderer.resize(parent.clientWidth, parent.clientHeight);
-    // }
+    public static resizeScene(canvas): void {
+        const height = window.innerHeight;
+        const proportionBasic = 720 / 1280;
+        const width = height / proportionBasic;
+        const left = (width - window.innerWidth) / 2;
+        console.log(width)
+        canvas.width = width;
+        canvas.height = height;
+    }
 }

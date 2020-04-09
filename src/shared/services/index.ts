@@ -9,3 +9,4 @@ export * from 'shared/services/score.service';
 export * from 'shared/services/resultPopupsMarkup.service';
 export * from 'shared/services/settingsMarkup.serivce';
 export * from 'shared/services/changeComplextyLevel.service';
+export * from 'shared/services/resize.service';

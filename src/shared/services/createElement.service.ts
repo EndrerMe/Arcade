@@ -6,22 +6,20 @@ export class CreateElement {
 
     public static createEnemies(scene: HTMLElement, 
         width: number, height: number,
-        enemyContainer: PIXI.Container,
-        app: PIXI.Application, quantity: number,
+        enemyContainer: PIXI.Container, quantity: number,
         health: number, complexityLevel: number): Enemy[] {
 
         const enemies: Enemy[] = [];
-        console.log(Main.instance.resourses, app.loader)
         for (let i = 0; i < quantity; i++) {
             const isSpawnHardEnemy = Math.floor(Math.random() * (10 - 1) + 1);
             let enemy;
             if (isSpawnHardEnemy > complexityLevel * 2) {
-                enemy = Enemy.from(app.loader.resources.enemy.texture);
+                enemy = Enemy.from(Main.instance.resourses.enemy.texture);
                 enemy.health = health;
                 enemy.width = width;
                 enemy.height = height;
             } else {
-                enemy = Enemy.from(app.loader.resources.enemy2.texture);
+                enemy = Enemy.from(Main.instance.resourses.enemy2.texture);
                 enemy.health = health + 1;
                 enemy.width = width + 20;
                 enemy.height = height + 20;

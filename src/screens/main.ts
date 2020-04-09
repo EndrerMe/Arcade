@@ -4,7 +4,7 @@ import {Howl} from 'howler'
 // Screens
 import { Menu, Game, Settings } from 'screens';
 // Services
-import { LoaderService, HtmlLoader } from 'shared/services';
+import { LoaderService, HtmlLoader, Resize } from 'shared/services';
 
 export class Main {
 
@@ -18,7 +18,7 @@ export class Main {
     }
 
     public app: PIXI.Application;
-    public scene: HTMLElement = document.getElementById('gameScene');
+    public scene: HTMLElement;
     public menu: Menu;
     public game: Game;
     public settings: Settings;
@@ -26,23 +26,26 @@ export class Main {
     private backgroundMusic: Howl;
 
     public get resourses() {
-        return this.app.loader;
+        return this.app.loader.resources;
     }
 
-    constructor(
+    private constructor(
     ) {
-        this.initApp();
     }
 
-    public initApp(): void {
+    public initApp = (): void => {
+        this.scene = document.getElementById('gameScene');
         this.app = new PIXI.Application({
-            width: this.scene.offsetWidth,
-            height: this.scene.offsetHeight,
+            width: 1280,
+            height: 720,
         })
         this.app.stage.interactive = true;
 
         this.scene.appendChild(this.app.view);
         this.init();
+        window.addEventListener('resize', () => {
+            Resize.resizeScene(this.app.view)
+        })
     }
 
     private init(): void {
@@ -50,21 +53,23 @@ export class Main {
         this.menu = new Menu(this.app, this.scene);
         this.game = new Game(this.app, this.scene);
         this.settings = new Settings(this.app, this.scene);
-        this.loaderService.loadMenuAssets();
         HtmlLoader.toggleLoader(true);
-        this.loaderService.loadAssets().then((res) => {
-            HtmlLoader.toggleLoader(false);
-            this.initMusic();
-            this.initMenu();
+        this.loaderService.loadMenuAssets().then((res) => {
+            if (res) {
+                HtmlLoader.toggleLoader(false);
+                this.initMusic();
+                this.initMenu();
+            }
         });
 
         this.settings.isGameStart.subscribe((res) => {
             if (res) {
-                this.loaderService.loadGameAssets();
-                this.loaderService.loadAssets().then((res) => {
-                    this.backgroundMusic.stop();
-                    this.initGame();
-                    HtmlLoader.toggleLoader(false);
+                this.loaderService.loadGameAssets().then((res) => {
+                    if (res) {
+                        this.backgroundMusic.stop();
+                        this.initGame();
+                        HtmlLoader.toggleLoader(false);
+                    }
                 })
             }
         })
