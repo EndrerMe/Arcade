@@ -36,15 +36,16 @@ export class Main {
     public initApp = (): void => {
         this.scene = document.getElementById('gameScene');
         this.app = new PIXI.Application({
-            width: 1280,
-            height: 720,
+            width: window.innerWidth,
+            height: window.innerHeight,
         })
         this.app.stage.interactive = true;
 
         this.scene.appendChild(this.app.view);
+        Resize.resizeScene(this.app)
         this.init();
         window.addEventListener('resize', () => {
-            Resize.resizeScene(this.app.view)
+            Resize.resizeScene(this.app)
         })
     }
 

@@ -23,8 +23,8 @@ export class SettingsMurkup {
         this.complyxityContainer = new PIXI.Container;
         this.complyxityContainer.x = -150;
         const title = new PIXI.Text('Complexity Level: ');
-        this.complyxityContainer.x = 25;
-        this.complyxityContainer.y = 200;
+        this.complyxityContainer.x = (1280 * 0.20);
+        this.complyxityContainer.y = (720 * 0.20);
         title.style = new PIXI.TextStyle({
             fill: 0x000000,
             fontSize: 26,

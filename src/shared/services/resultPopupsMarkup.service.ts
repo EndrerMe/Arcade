@@ -21,7 +21,7 @@ export class ResultPopupsMurkup {
         scoreContainer.name = 'score_container';
         const scoreText = new PIXI.Text(`Score: 0`);
         scoreText.name = 'score';
-        scoreText.x = 25;
+        scoreText.x = 180;
         scoreText.y = 25;
         scoreText.style = new PIXI.TextStyle({
             fill: 0xffffff,

@@ -23,9 +23,10 @@ export class CreateElement {
                 enemy.health = health + 1;
                 enemy.width = width + 20;
                 enemy.height = height + 20;
-            }
+            }   
             enemy.name = `enemy${i}`;
-            enemy.x = Math.random() * ((scene.offsetWidth - 55) - 55) + 55;
+            const saveZone = (scene.offsetWidth * 0.20);
+            enemy.x = Math.random() * ((scene.offsetWidth - 55 - saveZone) - (55 + saveZone)) + (55 + saveZone);
             enemy.y = -40;
             enemy.visible = false;
             enemyContainer.addChild(enemy);
