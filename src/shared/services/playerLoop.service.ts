@@ -1,15 +1,16 @@
 // Components
 import { Player } from "components";
-import { CreateElement } from 'shared/services';
+import { CreateElement, GamePause } from 'shared/services';
 
 export class PlayerLoop extends Player {
     private isKeyPress: boolean = false;
-    private winWidth: number = window.innerWidth;
-    private winHeight: number = window.innerHeight;
+    private winWidth;
+    private winHeight;
     private keys: boolean[] = [];
     private app: PIXI.Application;
     private screen: PIXI.Container;
     private container: PIXI.Container;
+    private isGamePause: boolean;
     public player: Player;
 
     constructor(
@@ -20,15 +21,22 @@ export class PlayerLoop extends Player {
 
     public init(): void {
         this.screen.removeChild(this.container)
-        this.container = CreateElement.createContainer(this.winWidth, this.winHeight);
-        this.container.name = 'player_container'
-        this.container.interactive = true;
+        console.log(this.winHeight)
+        this.container = CreateElement.createContainer(this.app.stage.width, this.app.stage.height);
+        this.container.name = 'player_container';
         this.screen.addChild(this.container)
-        this.player = CreateElement.createPlayer(this.winWidth, this.winHeight, this.app);
+        this.player = CreateElement.createPlayer(this.container);
         this.player.name = 'player'
         this.container.addChild(this.player);
+        this.watchGamePause();
         window.addEventListener('keydown', this.keysDown);
         window.addEventListener('keyup', this.keysUp);
+    }
+
+    private watchGamePause(): void {
+        GamePause.isGamePause.subscribe((res: boolean) => {
+            this.isGamePause = res;
+        })
     }
 
     private keysUp = (e): void => {
@@ -38,6 +46,10 @@ export class PlayerLoop extends Player {
     }
 
     private keysDown = (e): void => {
+        if (this.isGamePause) {
+            return;
+        }
+
         this.keys[e.keyCode] = true;
         if (!this.isKeyPress) {
             this.app.ticker.add(this.gameLoop);

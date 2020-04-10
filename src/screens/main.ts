@@ -101,6 +101,6 @@ export class Main {
             loop: true,
         });
 
-        // this.backgroundMusic.play();
+        this.backgroundMusic.play();
     }
 }

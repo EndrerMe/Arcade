@@ -23,16 +23,23 @@ $Loader-timing: ease-in-out;
     }
 
     .loader {
+        position: fixed;
         display: block;
+        width: 100%;
+        height: 100%;
 
         .bg_black {
             background: rgba($color: #000000, $alpha: 0.8);
+            width: 100%;
+            height: 100%;
         }
 
         .text {
+            position: absolute;
             display: flex;
             justify-content: center;
             align-items: center;
+            top: 0;
             width: 100%;
             height: 100%;
             font-family: ‘Arial Narrow’, sans-serif;

@@ -35,12 +35,13 @@ export class CreateElement {
         return enemies;
     }
 
-    public static createPlayer(width: number, height: number, app: PIXI.Application): Player {
-        const player = Player.from(app.loader.resources.player.texture);
+    public static createPlayer(container: PIXI.Container): Player {
+        const player = Player.from(Main.instance.resourses.player.texture);
         
         player.anchor.set(0.5);
-        player.x = width / 2;
-        player.y = height / 1.2;
+        player.x = container.width / 2;
+        player.y = 720 - 100;
+        console.log(Main.instance.app.view.clientHeight)
         player.width = 38;
         player.height = 38;
 

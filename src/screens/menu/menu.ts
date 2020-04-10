@@ -27,7 +27,6 @@ export class Menu extends initScreen {
         const menuGraphicts = new PIXI.Graphics();
         menuGraphicts.beginFill(0xc9c9c9);
         menuGraphicts.drawRect(0, 0, this.app.view.width, this.app.view.height);
-        
         this.menuScreen.addChild(menuGraphicts);
         this.menuScreenTitle();
         this.buttonsMenuScreen();

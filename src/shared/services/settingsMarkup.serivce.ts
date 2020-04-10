@@ -81,7 +81,7 @@ export class SettingsMurkup {
         const text = new PIXI.Text('Start Game!');
         text.anchor.set(0.5);
         text.x = width / 2;
-        text.y = height - 125;
+        text.y = height - 155;
         text.buttonMode = true;
         text.interactive = true;
         text.style = new PIXI.TextStyle({

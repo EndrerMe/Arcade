@@ -1,7 +1,7 @@
 // Vendors
 import gsap from "gsap";
 // Services
-import { DetectKill, CreateElement, ResultPopupsMurkup, ChangeComplexityLevel } from 'shared/services';
+import { GamePause, CreateElement, ResultPopupsMurkup, ChangeComplexityLevel } from 'shared/services';
 // Components
 import { Enemy } from 'components';
 
@@ -101,6 +101,7 @@ export class EnemyLoop extends Enemy {
         if (this.enemies.length === 0) {
             ResultPopupsMurkup.toggleWinPopup(true);
             this.app.ticker.remove(this.gameLoop);
+            GamePause.togglePause(true);
             return;
         }
         this.checkPosition();
@@ -116,6 +117,7 @@ export class EnemyLoop extends Enemy {
         }
 
         if (this.enemies[0].y >= height / 1.4) {
+            GamePause.togglePause(true);
             ResultPopupsMurkup.toggleLoosePopup(true)
             this.app.ticker.remove(this.gameLoop);
         }

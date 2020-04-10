@@ -3,7 +3,7 @@ import gsap from "gsap";
 
 // Services
 import { DetectKill, EnemyLoop, ResultPopupsMurkup,
-    FireLoop, PlayerLoop } from 'shared/services'
+    FireLoop, PlayerLoop, GamePause } from 'shared/services'
 // Screen
 import { initScreen } from 'screens/initScreen/initScreen';
 // Components
@@ -54,21 +54,10 @@ export class Game extends initScreen {
     }
 
     private tryAgain = (): void => {
-        this.hidePopup();
+        GamePause.togglePause(false);
         this.enemyLoop.tryAgain();
         this.getComponentData();
         this.detectKill.init(this.enemies, this.bullets);
-    }
-
-    private hidePopup(): void {
-        const loosePopup = document.getElementById('loose_popup');
-        const looseWindow = document.getElementById('window_loose');
-        const winPopup = document.getElementById('win_popup');
-        const winWindow = document.getElementById('window_win');
-        loosePopup.style.display = 'none';
-        looseWindow.style.bottom = '-125px';
-        winPopup.style.display = 'none';
-        winWindow.style.bottom = '-125px';
     }
 
     private initEventTryAgain(): void {

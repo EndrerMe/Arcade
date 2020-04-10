@@ -2,6 +2,7 @@
 import gsap from "gsap";
 import { Subject } from 'rxjs';
 
+
 export class ResultPopupsMurkup {
     public static isStartNewGame: Subject<boolean> = new Subject();
     private static result: {

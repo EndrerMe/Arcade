@@ -1,7 +1,9 @@
 // Services
 import { LoaderService } from 'shared/services';
+// Screens
+import { Main } from 'screens';
 
-export abstract class initScreen {
+export class initScreen {
     public menuScreen: PIXI.Container;
     public gameScreen: PIXI.Container;
     public settingScreen: PIXI.Container;
@@ -25,14 +27,16 @@ export abstract class initScreen {
     }
 
     public initSetting(): void {
-        this.app.stage.removeChild(this.menuScreen);
+        const menuScreen = this.app.stage.getChildByName('menu_screen');
+        this.app.stage.removeChild(menuScreen);
         this.settingScreen = new PIXI.Container;
         this.settingScreen.name = 'setting_screen';
         this.app.stage.addChild(this.settingScreen);
     }
 
-    public initGame(): void {
-        this.app.stage.removeChild(this.settingScreen);
+    public initGame = (): void => {
+        const settingScreen = this.app.stage.getChildByName('setting_screen')
+        this.app.stage.removeChild(settingScreen);
         this.gameScreen = new PIXI.Container();
         this.gameScreen.name = 'game_screen';
         this.app.stage.addChild(this.gameScreen);

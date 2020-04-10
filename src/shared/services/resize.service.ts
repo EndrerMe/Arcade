@@ -3,6 +3,7 @@ export class Resize {
     ) { }
 
     public static resizeScene(canvas) {
+        console.log(canvas)
         const origin = {
             width: 1280,
             height: 720,
@@ -22,6 +23,7 @@ export class Resize {
             canvas.view.style.width = `${clientWidth}px`;
             canvas.view.style.left = `0px`
         }
+
 
         // canvas.resize(Math.ceil(origin.width / ratio), Math.ceil(origin.height / ratio));
 

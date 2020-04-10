@@ -3,7 +3,7 @@ import gsap from "gsap";
 import {Howl} from 'howler';
 
 // Services
-import { DetectKill, CreateElement } from 'shared/services';
+import { GamePause, CreateElement } from 'shared/services';
 // Components
 import { Bullet } from 'components';
 
@@ -14,6 +14,7 @@ export class FireLoop extends Bullet {
     private player: PIXI.Sprite;
     private container: PIXI.Container;
     private currentBullet: number = 0;
+    private isGamePause: boolean;
     private scene: HTMLElement;
 
     constructor(
@@ -27,9 +28,20 @@ export class FireLoop extends Bullet {
         this.container = CreateElement.createContainer(window.innerWidth, window.innerHeight);
         this.container.name = 'bullets_container';
         this.screen.addChild(this.container);
+        this.watchGamePause();
+    }
+
+    private watchGamePause(): void {
+        GamePause.isGamePause.subscribe((res: boolean) => {
+            this.isGamePause = res;
+        })
     }
 
     public fireBullet = (e): void => {
+        if (this.isGamePause) {
+            return;
+        }
+
         const playerContainer = this.screen.getChildByName('player_container') as PIXI.Container;
         const player = playerContainer.getChildByName('player') as PIXI.Sprite;
         this.player = player;
